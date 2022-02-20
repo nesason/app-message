@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import React from 'react';
+import { Container } from 'react-bootstrap'
+import Home from './pages/home/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import { AuthProvider } from './context/auth'
+import DynamicRoute from './util/dynamicRoute'
+import { MessageProvider } from './context/message'
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <MessageProvider>
+      <BrowserRouter>
+        <Container className="p-5">
+          <Switch>
+            {/* <Route exact path="/" component={Home} />
+            <Route path="/register" component={Register} />
+            <Route  path="/login" component={Login} /> */}
+              <DynamicRoute exact path='/' component={Home} authenticated/>
+              <DynamicRoute path='/register' component={Register}  guest/>
+              <DynamicRoute path='/login' component={Login} guest />
+            <Register />
+          </Switch>
+        </Container>
+      </BrowserRouter>
+      </MessageProvider>
+    </AuthProvider>
+
   );
 }
 
